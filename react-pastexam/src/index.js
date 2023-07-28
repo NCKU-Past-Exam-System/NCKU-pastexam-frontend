@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import Home from './home';
+import Home from './pages/Home/home';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Main } from './pages/main';
-import { Login } from './pages/login';
-import { NoPage } from './pages/nopage';
+import { Main } from './pages/Main/main';
+import { Login } from './pages/Login/login';
+import { NoPage } from './pages/NoPage/nopage';
+import { Table } from './conponents/Table/table';
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/main" element={<Main />} />
+        <Route path="/main/:id" element={<Main/>} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
@@ -20,6 +21,7 @@ export default function App() {
   );
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
     <App />

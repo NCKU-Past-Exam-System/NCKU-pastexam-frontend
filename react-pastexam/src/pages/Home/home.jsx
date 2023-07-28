@@ -1,10 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
 import React from "react";
-import { Login } from './pages/login';
-import { Main } from './pages/main';
-import { BrowserRouter, Link,Route,Router,redirect } from "react-router-dom";
-import { ReactDOM } from 'react';
+import { Link } from "react-router-dom";
 function Home() {
   return (
     <div className="App">
