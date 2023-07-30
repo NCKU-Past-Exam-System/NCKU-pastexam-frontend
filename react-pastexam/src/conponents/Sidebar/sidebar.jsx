@@ -1,43 +1,94 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SetStateAction } from "react";
 import axios from "axios";
-import { SidebarContainer, SidebarItem,List } from "./style";
-import {api} from "../../credential";
-import {COURSE_TYPES} from "../../constants";
-export const Sidebar = () => {
+import { api } from "../../credential";
+import { COURSE_TYPES } from "../../constants";
+import { Box, Collapse } from "@mui/material";
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { styled } from '@mui/material/styles';
+import MuiDrawer from '@mui/material/Drawer';
+const closedMixin = ()=>({
+    width: 240,
+  });
+const Drawer = styled(MuiDrawer)(
+    ({ 
+      width: 240,
+        ...{
+        ...closedMixin(),
+        '& .MuiDrawer-paper': closedMixin(),
+      },
+    }),
+  );
+export const Sidebar = (props) => {
+    const [open, setOpen] = useState([]);
+    const { window } = props;
     const navigation = useNavigate();
     const [courses, setCourses] = useState([]);
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const drawerWidth = 240;
+    const handleClicked = (index) => {
+        setOpen(open.map((value, i) => {
+            if (i == index) {
+                return !value;
+            } else {
+                return value;
+            }
+        }
+        ));
+    }
     useEffect(() => {
+        setOpen(new Array(COURSE_TYPES.length).fill(false));
         const fetchData = async () => {
-            const res= await axios.get(`${api}/courselist`);
+            const res = await axios.get(`${api}/courselist`);
             setCourses(res.data);
         };
         fetchData();
 
     }, []);
+    const DrawerHeader = styled('div')(({ theme }) => ({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+      }));
+    const myDrawer = (
+            <List >
+                {COURSE_TYPES.map((group, index) => (
+                    <div>
+                        <ListItemButton onClick={() => handleClicked(index)} on>
+                            <ListItemText primary={group} />
+                            {open[index] ? <ExpandLess /> : <ExpandMore />}
+                        </ListItemButton>
+                        <Collapse in={open[index]} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                                {courses.filter((course) => course.grade == index + 1).map((course) => (
+                                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigation(`/main/${course.id}`)}>
+                                        <ListItemText primary={course.course} />
+                                    </ListItemButton>
+                                ))}
+                            </List>
+                        </Collapse>
+                    </div>
+                ))}
+            </List>
+    );
+
     return (
-        <SidebarContainer>
-            成大資工考古題系統
-            {
-                COURSE_TYPES.map((group, index) => {
-                    return (
-                        <div>
-                            {group}
-                            {
-                                courses.map((course) => (
-                                    <SidebarItem>
-                                    <List onClick={() => {navigation(`/main/${course.id}`);}}>
-                                        {course.grade == index + 1 && course.course}
-                                    </List>
-                                    </SidebarItem>
-                                )
-                                )
-                            }
-                        </div>
-                    )
-                })
-            }
-        </SidebarContainer>
+        <Drawer variant="permanent" open={open}>
+        <DrawerHeader/>
+        {myDrawer}
+      </Drawer>
     )
 }

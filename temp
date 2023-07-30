@@ -4,13 +4,19 @@ import { MainWrapper } from "./style";
 import { Table } from "../../conponents/Table/table";
 import { Navbar } from "../../conponents/Navbar/navbar";
 import { Box } from "@mui/system";
-import CssBaseline from '@mui/material/CssBaseline';
+
 export const Main = () => {
     return (
-        <Box sx={{ display: 'flex' }} >
+        <div >
              <Navbar />
+             <div class="container-fluid">
+                <div class='row'>
                 <Sidebar />
+                </div>
+             </div>
+               
+            
             <Table/>
-        </Box>
+        </div>
     )
 }

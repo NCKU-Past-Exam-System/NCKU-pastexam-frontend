@@ -7,6 +7,7 @@ import { Main } from './pages/Main/main';
 import { Login } from './pages/Login/login';
 import { NoPage } from './pages/NoPage/nopage';
 import { Table } from './conponents/Table/table';
+import { Upload } from './pages/Upload/upload';
 export default function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/main/:id" element={<Main/>} />
         <Route path="/login" element={<Login />} />
+        <Route path="/upload" element={<Upload />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
