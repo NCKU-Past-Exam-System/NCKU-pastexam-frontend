@@ -52,7 +52,6 @@ export const Upload = () => {
                 alert("上傳失敗 "+res.data.message);
             }else{
                 alert("上傳成功");
-                window.location.reload();
             }
         }).catch((err) => {
             alert(err);
@@ -88,17 +87,17 @@ export const Upload = () => {
                         required="true"
                         onChange={handleTypeChange}
                     >
-                        <MenuItem value={'midterm'}>期中考</MenuItem>
-                        <MenuItem value={'final'}>期末考</MenuItem>
-                        <MenuItem value={'quiz'}>小考</MenuItem>
-                        <MenuItem value={'other'}>其他</MenuItem>
+                        <MenuItem value={'期中考'}>期中考</MenuItem>
+                        <MenuItem value={'期末考'}>期末考</MenuItem>
+                        <MenuItem value={'小考'}>小考</MenuItem>
+                        <MenuItem value={'其他'}>其他</MenuItem>
                     </Select>
                     </FormControl>
                     <FormControl>
-                    <TextField id="teacher" label="teacher" variant="outlined" required="true"/>
+                    <TextField id="teacher" label="教授" variant="outlined" required="true"/>
                     </FormControl>
                     <FormControl>
-                    <TextField id="year" label="year" variant="outlined"  required="true"/>
+                    <TextField id="year" label="學年度" variant="outlined"  required="true"/>
                 </FormControl>
             </Box>
             <input
