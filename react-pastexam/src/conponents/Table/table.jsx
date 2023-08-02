@@ -7,14 +7,10 @@ import { Loading } from "./style";
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import {styled} from "@mui/material";
-import {Table as muiTable} from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { FileCopySharp, FileOpenSharp } from "@mui/icons-material";
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -57,7 +53,7 @@ const fileTable = (files,id) => {
                         <TableCell align="center"><Typography variant="h6"  >{row.teacher}</Typography></TableCell>
                         <TableCell align="center"><Typography variant="h6"  >{row.filename}{'    '}</Typography></TableCell>
                         <TableCell align="center"><Button variant="contained" onClickCapture={()=>handleDownload(row.filename,id)}>下載</Button></TableCell>
-                    </TableRow>
+                    </TableRow> 
                    ))}
                 </TableBody>
             </muiTable>
@@ -81,7 +77,7 @@ export const Table = () => {
        
         <Box m='auto' component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
-            {id < 1 || id == undefined ? <h1>請選擇科目</h1> :
+            {id < 1 || id == undefined ? <Typography variant="h3" align="center" >請選擇科目</Typography> :
                 <div>
                     {loading || files.length == 0 ? <Loading /> : <div>
                         {(!loading && JSON.stringify(files) == '{"error":"not found"}') ? <Typography variant="h3" align="center" >
