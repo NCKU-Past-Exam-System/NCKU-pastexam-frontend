@@ -8,7 +8,9 @@ import { api } from "../../credential";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import { Button } from "@mui/material";
+import { Button, Input } from "@mui/material";
+import { Navbar } from "../../conponents/Navbar/navbar";
+import { Padding } from "@mui/icons-material";
 export const Upload = () => {
     const [selectedCourse, setSelectedCourse] = useState();
     const [selectedType, setSelectedType] = useState();
@@ -24,7 +26,6 @@ export const Upload = () => {
     }, []);
     const handleCourseChange = (event) => {
         setSelectedCourse(event.target.value);
-        console.log(event.target.value);
     };
     const handleTypeChange = (event) => {
         setSelectedType(event.target.value);
@@ -44,7 +45,8 @@ export const Upload = () => {
         formData.append('file', file);
         axios.post(`${api}/uploadfile/?course_id=${selectedCourse}&year=${courseYear}&examtype=${selectedType}&teacher=${courseTeacher}`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'token': sessionStorage.getItem('token'),
             }
         }).then((res) => {
             console.log(res);
@@ -53,15 +55,19 @@ export const Upload = () => {
             }else{
                 alert("上傳成功");
             }
-        }).catch((err) => {
-            alert(err);
+        }).catch((error) => {
+            if(error.message == 'Network Error'){
+                alert('server error');
+                return;
+            }
+            alert(error);
         }
         );
     }
     return (
         <div>
-            <h1>Upload</h1>
-            <Box sx={{'& > :not(style)': { m: 1, width: '25ch' }}}>
+            <Navbar/>
+            <Box sx={{'& > :not(style)': { m: 1, width: '25ch' },paddingTop:"80px"}}>
                 <FormControl >
                     <InputLabel id="demo-simple-select-label">Course</InputLabel>
                     <Select
@@ -97,17 +103,17 @@ export const Upload = () => {
                     <TextField id="teacher" label="教授" variant="outlined" required="true"/>
                     </FormControl>
                     <FormControl>
-                    <TextField id="year" label="學年度" variant="outlined"  required="true"/>
+                    <TextField id="year" type="number" label="學年度" variant="outlined"  required="true"/>
                 </FormControl>
             </Box>
-            <input
-                type={'file'}
+            <Input type="file" 
                 onChange={
                     (e) => {
                         setFile(e.target.files[0]);
                     }
                 }
-            />
+                />
+
             <Button variant="contained" component="span" onClick={handleUpload} >
                 Upload
             </Button>

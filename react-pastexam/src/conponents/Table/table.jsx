@@ -16,22 +16,33 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }));
 const handleDownload = (filename,id) => {
     axios.get(`${api}/files/?course_id=${id}&file_name=${filename}`, {
         responseType: 'blob',
-    }).then((res) => {
+        withCredentials: true,
+        headers: {
+            'token': sessionStorage.getItem('token'),
+        }}
+    ).then((res) => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
         link.setAttribute('download', filename); //or any other extension
       document.body.appendChild(link);
       link.click();
-    }).catch((err) => {
-        alert(err);
-    }, []);
+    }).catch(error => {
+        if(error.message == 'Network Error'){
+            alert('server error');
+            return;
+        }
+        const reader = new FileReader();
+        reader.readAsText(error?.response?.data,'utf-8');
+        reader.onload = ()  => {
+            alert(JSON.parse(reader.result).message);
+        }   
+      });
 }
 const fileTable = (files,id) => {
     return(
@@ -43,6 +54,7 @@ const fileTable = (files,id) => {
                         <TableCell width="5%" align="center"><Typography variant="h6"  >老師</Typography></TableCell>
                         <TableCell width="20%"  align="center"><Typography variant="h6"  >檔名</Typography></TableCell>
                         <TableCell width="5%"  align="center"><Typography variant="h6"  ></Typography></TableCell>
+                        <TableCell width="20%"  align="center"><Typography variant="h6"  >上傳者</Typography></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -53,6 +65,7 @@ const fileTable = (files,id) => {
                         <TableCell align="center"><Typography variant="h6"  >{row.teacher}</Typography></TableCell>
                         <TableCell align="center"><Typography variant="h6"  >{row.filename}{'    '}</Typography></TableCell>
                         <TableCell align="center"><Button variant="contained" onClickCapture={()=>handleDownload(row.filename,id)}>下載</Button></TableCell>
+                        <TableCell align="center"><Typography variant="h6"  >{row.uploader}{'    '}</Typography></TableCell>
                     </TableRow> 
                    ))}
                 </TableBody>

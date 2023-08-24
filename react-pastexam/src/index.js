@@ -7,11 +7,13 @@ import { Main } from './pages/Main/main';
 import { Login } from './pages/Login/login';
 import { NoPage } from './pages/NoPage/nopage';
 import { Upload } from './pages/Upload/upload';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { clientId } from './credential';
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Main />} />
         <Route path="/main" element={<Main />} />
         <Route path="/main/:id" element={<Main/>} />
         <Route path="/login" element={<Login />} />
@@ -25,7 +27,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
+    <GoogleOAuthProvider clientId={clientId} >
     <App />
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 

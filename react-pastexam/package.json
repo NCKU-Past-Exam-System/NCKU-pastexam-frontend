@@ -10,12 +10,14 @@
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
     "@mui/styled-engine-sc": "^5.12.0",
+    "@react-oauth/google": "^0.11.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "axios": "^1.4.0",
     "cros": "^1.0.1",
     "express": "^4.18.2",
+    "jwt-decode": "^3.1.2",
     "mysql": "^2.18.1",
     "nodemon": "^3.0.1",
     "react": "^18.2.0",
@@ -25,6 +27,7 @@
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
     "styled-components": "^6.0.5",
+    "universal-cookie": "^6.0.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -51,5 +54,4 @@
       "last 1 safari version"
     ]
   }
-  
 }
