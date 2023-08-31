@@ -11,6 +11,8 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import {googleLogout} from '@react-oauth/google';
+
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -41,7 +43,14 @@ const handleDownload = (filename,id) => {
         reader.readAsText(error?.response?.data,'utf-8');
         reader.onload = ()  => {
             alert(JSON.parse(reader.result).message);
-        }   
+            if(JSON.parse(reader.result).message=='Token Expired! Please Relogin!'||JSON.parse(reader.result).message=='Unvalid Login! Please Relogin!'){
+                googleLogout();
+                sessionStorage.removeItem('token');
+                sessionStorage.removeItem('info');
+                window.location.reload();
+                } 
+        }
+          
       });
 }
 const fileTable = (files,id) => {
@@ -87,7 +96,6 @@ export const Table = () => {
         fetchFile(id);
     }, [id]);
     return (
-       
         <Box m='auto' component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
             {id < 1 || id == undefined ? <Typography variant="h3" align="center" >請選擇科目</Typography> :
@@ -96,10 +104,12 @@ export const Table = () => {
                         {(!loading && JSON.stringify(files) == '{"error":"not found"}') ? <Typography variant="h3" align="center" >
                             目前🈚️考古題
                         </Typography> :
-                            fileTable(files,id)
+                            fileTable(files, id)
                         }
                     </div>}
                 </div>}
+                
         </Box>
+
     )
 }

@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { Button, Input } from "@mui/material";
 import { Navbar } from "../../conponents/Navbar/navbar";
+import { googleLogout } from "@react-oauth/google";
 import { Padding } from "@mui/icons-material";
 export const Upload = () => {
     const [selectedCourse, setSelectedCourse] = useState();
@@ -60,7 +61,15 @@ export const Upload = () => {
                 alert('server error');
                 return;
             }
-            alert(error);
+            
+            alert(error.response.data.message); 
+            if(error.response.data.message=='Token Expired! Please Relogin!'||error.response.data.message=='Unvalid Login! Please Relogin!'){
+            googleLogout();
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('info');
+            window.location.reload();
+            }
+            
         }
         );
     }
@@ -107,16 +116,25 @@ export const Upload = () => {
                 </FormControl>
             </Box>
             <Input type="file" 
+                inputProps={{accept:["application/zip","application/pdf","application/msword","text/plain","image/*",	"application/vnd.ms-powerpoint","application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.openxmlformats-officedocument.wordprocessingml.document"]}}
                 onChange={
                     (e) => {
-                        setFile(e.target.files[0]);
+                        console.log(e.target.files[0]);
+                        if(e.target.files[0].type.includes('image') || e.target.files[0].type.includes('pdf')|| e.target.files[0].type.includes('text')
+                        ||e.target.files[0].type.includes('zip')||e.target.files[0].type.includes('msword')||e.target.files[0].type.includes('powerpoint')||e.target.files[0].type.includes('officedocument')
+                        )
+                        { setFile(e.target.files[0])}
+                        else
+                        {
+                            alert("僅允許pdf,doc,ppt,zip以及圖片");
+                            e.target.value=null;
+                        }
                     }
                 }
                 />
-
             <Button variant="contained" component="span" onClick={handleUpload} >
                 Upload
             </Button>
         </div>
     )
-}
+}  

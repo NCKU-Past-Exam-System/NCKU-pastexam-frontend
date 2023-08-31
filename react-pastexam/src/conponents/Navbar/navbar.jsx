@@ -14,7 +14,6 @@ export const Navbar = () => {
     theme :'filled_black',
     clientId: clientId,
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       sessionStorage.setItem('token', tokenResponse.credential);
       sessionStorage.setItem('info', JSON.stringify(jwtDecode(tokenResponse.credential)));
       window.location.reload();
@@ -27,6 +26,7 @@ export const Navbar = () => {
   const googleOathLogout = () => {
     googleLogout();
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('info');
     window.location.reload();
   }
   return (
