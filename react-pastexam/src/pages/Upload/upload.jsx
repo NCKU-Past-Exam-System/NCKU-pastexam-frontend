@@ -77,8 +77,8 @@ export const Upload = () => {
         <div>
             <Navbar/>
             <Box sx={{'& > :not(style)': { m: 1, width: '25ch' },paddingTop:"80px"}}>
-                <FormControl >
-                    <InputLabel id="demo-simple-select-label">Course</InputLabel>
+                <FormControl sx={{color:'#9DB2BF'}}>
+                    <InputLabel  sx={{color: "#9DB2BF"}}>Course</InputLabel>
                     <Select
                         labelId="course-label"
                         id="demo-simple-select"
@@ -86,6 +86,21 @@ export const Upload = () => {
                         label="course"
                         required="true"
                         onChange={handleCourseChange}
+                        sx={{
+                            color: "white",
+                            '.MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '.MuiSvgIcon-root ': {
+                              fill: "white !important",
+                            }
+                          }}
                     >
                         {courses.map((course) => (
                             <MenuItem value={course.id}>{course.course}</MenuItem>
@@ -93,14 +108,30 @@ export const Upload = () => {
                     </Select>
                     </FormControl>
                     <FormControl>
-                    <InputLabel id="type-label">Type</InputLabel>
+                    <InputLabel sx={{color: "#9DB2BF"}}>Type</InputLabel>
                     <Select
                         labelId="type-label"
+                        labelStyle={{ color: '#ff0000' }}
                         id="type"
                         value={selectedType}
                         label="type"
                         required="true"
                         onChange={handleTypeChange}
+                        sx={{
+                            color: "white",
+                            '.MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '.MuiSvgIcon-root ': {
+                              fill: "white !important",
+                            }
+                          }}
                     >
                         <MenuItem value={'期中考'}>期中考</MenuItem>
                         <MenuItem value={'期末考'}>期末考</MenuItem>
@@ -108,14 +139,51 @@ export const Upload = () => {
                         <MenuItem value={'其他'}>其他</MenuItem>
                     </Select>
                     </FormControl>
-                    <FormControl>
-                    <TextField id="teacher" label="教授" variant="outlined" required="true"/>
+                    <FormControl >
+                    <TextField id="teacher" label="教授" variant="outlined" required="true" 
+                        InputLabelProps={{
+                            style: { color: "#9DB2BF" }
+                          }}
+                          sx={{
+                            input: { color: 'white' },
+                            '.MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '.MuiSvgIcon-root ': {
+                              fill: "white !important",
+                            }
+                          }}/>
                     </FormControl>
                     <FormControl>
-                    <TextField id="year" type="number" label="學年度" variant="outlined"  required="true"/>
+                    <TextField id="year" type="number" label="學年度" variant="outlined" required="true" 
+                        InputLabelProps={{
+                            style: { color: "#9DB2BF" }
+                          }}
+                          sx={{
+                            input: { color: 'white' },
+                            '.MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'rgba(228, 219, 233, 0.25)',
+                            },
+                            '.MuiSvgIcon-root ': {
+                              fill: "white !important",
+                            }
+                          }}/>
                 </FormControl>
             </Box>
             <Input type="file" 
+                sx={{color:'#9DB2BF'}}
                 inputProps={{accept:["application/zip","application/pdf","application/msword","text/plain","image/*",	"application/vnd.ms-powerpoint","application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.openxmlformats-officedocument.wordprocessingml.document"]}}
                 onChange={
                     (e) => {
@@ -132,7 +200,7 @@ export const Upload = () => {
                     }
                 }
                 />
-            <Button variant="contained" component="span" onClick={handleUpload} >
+            <Button variant="contained" component="span"  onClick={handleUpload}  sx={{backgroundColor:'#9DB2BF'}}>
                 Upload
             </Button>
         </div>
