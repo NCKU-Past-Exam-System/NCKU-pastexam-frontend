@@ -58,23 +58,23 @@ const fileTable = (files,id) => {
     <muiTable>
                 <TableHead>
                     <TableRow>
-                        <TableCell width="5%" align="center"><Typography variant="h6"  >年份</Typography></TableCell>
-                        <TableCell width="5%" align="center"><Typography variant="h6"  >類型</Typography></TableCell>
-                        <TableCell width="5%" align="center"><Typography variant="h6"  >老師</Typography></TableCell>
-                        <TableCell width="20%"  align="center"><Typography variant="h6"  >檔名</Typography></TableCell>
-                        <TableCell width="5%"  align="center"><Typography variant="h6"  ></Typography></TableCell>
-                        <TableCell width="20%"  align="center"><Typography variant="h6"  >上傳者</Typography></TableCell>
+                        <TableCell width="5%" align="center"><Typography variant="h6"  color={'#DDE6ED'}>年份</Typography></TableCell>
+                        <TableCell width="5%" align="center"><Typography variant="h6"  color={'#DDE6ED'}>類型</Typography></TableCell>
+                        <TableCell width="5%" align="center"><Typography variant="h6"  color={'#DDE6ED'}>老師</Typography></TableCell>
+                        <TableCell width="20%" align="center"><Typography variant="h6" color={'#DDE6ED'}>檔名</Typography></TableCell>
+                        <TableCell width="5%"  align="center"><Typography variant="h6" color={'#DDE6ED'}></Typography></TableCell>
+                        <TableCell width="20%"  align="center"><Typography variant="h6" color={'#DDE6ED'}>上傳者</Typography></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {files.map((row) => (
-                    <TableRow hover={true}>
-                        <TableCell align="center"><Typography variant="h6"  >{row.year}</Typography></TableCell>
-                        <TableCell align="center"><Typography variant="h6"  >{row.type}</Typography></TableCell>
-                        <TableCell align="center"><Typography variant="h6"  >{row.teacher}</Typography></TableCell>
-                        <TableCell align="center"><Typography variant="h6"  >{row.filename}{'    '}</Typography></TableCell>
-                        <TableCell align="center"><Button variant="contained" onClickCapture={()=>handleDownload(row.filename,id)}>下載</Button></TableCell>
-                        <TableCell align="center"><Typography variant="h6"  >{row.uploader}{'    '}</Typography></TableCell>
+                    <TableRow hover={true} >
+                        <TableCell align="center"><Typography variant="h6"  color={'#DDE6ED'}>{row.year}</Typography></TableCell>
+                        <TableCell align="center"><Typography variant="h6"  color={'#DDE6ED'}>{row.type}</Typography></TableCell>
+                        <TableCell align="center"><Typography variant="h6"  color={'#DDE6ED'}>{row.teacher}</Typography></TableCell>
+                        <TableCell align="center"><Typography variant="h6"  color={'#DDE6ED'}>{row.filename}{'    '}</Typography></TableCell>
+                        <TableCell align="center"><Button variant="contained" sx={{backgroundColor:'#9DB2BF'}} onClickCapture={()=>handleDownload(row.filename,id)}>下載</Button></TableCell>
+                        <TableCell align="center"><Typography variant="h6"  color={'#DDE6ED'}>{row.uploader}{'    '}</Typography></TableCell>
                     </TableRow> 
                    ))}
                 </TableBody>
@@ -98,10 +98,10 @@ export const Table = () => {
     return (
         <Box m='auto' component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
-            {id < 1 || id == undefined ? <Typography variant="h3" align="center" >請選擇科目</Typography> :
+            {id < 1 || id == undefined ? <Typography variant="h3" color={'#DDE6ED'}  paddingLeft={'38%'} >請選擇科目</Typography> :
                 <div>
                     {loading || files.length == 0 ? <Loading /> : <div>
-                        {(!loading && JSON.stringify(files) == '{"error":"not found"}') ? <Typography variant="h3" align="center" >
+                        {(!loading && JSON.stringify(files) == '{"error":"not found"}') ? <Typography variant="h3" color={'#DDE6ED'}  paddingLeft={'38%'}>
                             目前🈚️考古題
                         </Typography> :
                             fileTable(files, id)

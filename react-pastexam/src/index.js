@@ -24,7 +24,7 @@ export default function App() {
   );
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
+document.body.style.backgroundColor = "#040D12";
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={clientId} >

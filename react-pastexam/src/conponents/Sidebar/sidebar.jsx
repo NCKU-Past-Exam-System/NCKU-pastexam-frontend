@@ -8,11 +8,12 @@ import { Collapse } from "@mui/material";
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { BorderRight, ExpandLess, ExpandMore } from "@mui/icons-material";
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 const closedMixin = ()=>({
     width: 240,
+    backgroundColor:'#040D12',
   });
 const Drawer = styled(MuiDrawer)(
     ({ 
@@ -54,21 +55,22 @@ export const Sidebar = (props) => {
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: theme.spacing(0, 1),
+        backgroundColor:'#DDE6ED',
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
       }));
     const myDrawer = (
-            <List >
+            <List sx={{backgroundColor:'#040D12'}}>
                 {COURSE_TYPES.map((group, index) => (
                     <div>
                         <ListItemButton onClick={() => handleClicked(index)} on>
-                            <ListItemText primary={group} />
-                            {open[index] ? <ExpandLess /> : <ExpandMore />}
+                            <ListItemText sx={{color:'#DDE6ED'}} primary={group} />
+                            {open[index] ? <ExpandLess sx={{color:'#DDE6ED'}}/> : <ExpandMore sx={{color:'#DDE6ED'}}/>}
                         </ListItemButton>
-                        <Collapse in={open[index]} timeout="auto" unmountOnExit>
+                        <Collapse color="#DDE6ED" in={open[index]} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
                                 {courses.filter((course) => course.grade == index + 1).map((course) => (
-                                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigation(`/main/${course.id}`)}>
+                                    <ListItemButton sx={{ pl: 4 ,color:'#DDE6ED'}} onClick={() => navigation(`/main/${course.id}`)}>
                                         <ListItemText primary={course.course} />
                                     </ListItemButton>
                                 ))}
@@ -80,7 +82,7 @@ export const Sidebar = (props) => {
     );
 
     return (
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" sx={{backgroundColor:'#040D12' ,BorderRight:3}} open={open}>
         <DrawerHeader/>
         {myDrawer}
       </Drawer>

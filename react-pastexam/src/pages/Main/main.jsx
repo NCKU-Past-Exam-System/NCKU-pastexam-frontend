@@ -3,15 +3,16 @@ import { Sidebar } from "../../conponents/Sidebar/sidebar";
 import { Table } from "../../conponents/Table/table";
 import { Navbar } from "../../conponents/Navbar/navbar";
 import { Box } from "@mui/system";
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { clientId } from "../../credential";
+import {Footer} from "../../conponents/Footer/footer";
 export const Main = () => {
     return (
-        
-        <Box sx={{ display: 'flex' }} >
-             <Navbar />
+        <Box sx={{minHeight: '100vh', display: 'flex', flexDirection: 'column' ,backgroundColor:'#040D12'}}>
+            <Box sx={{ display: 'flex' ,backgroundColor:'#040D12'}} >
+                <Navbar />
                 <Sidebar />
-            <Table/>
+                <Table />
+            </Box>
+            <Footer />
         </Box>
     )
 }
