@@ -15,12 +15,20 @@
   </a>
 </p>
 
-### Back-End:
+### Back-End: https://nckucsie-pastexam-api.owenowenisme.com
 <p align="left">
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=fastapi,nginx" />
   </a>
 </p>
+
+| Method   | URL                                      | Description                              |
+| -------- | ---------------------------------------- | ---------------------------------------- |
+| `GET`    | `/courselist`                            | Retrieve all courses.                      |
+| `GET`    | `/main/{course_id:id}`                          | List all file in a course post #28.                       |
+| `GET`    | `/files/?course_id=${id}&file_name=${filename}`                             | Fetch a file to download of a course.  (Require valid token in header)                       |
+| `POST`   | `/uploadfile/?course_id=${}&year=${}&examtype=${}&teacher=${}`     | Upload new file to a course.              |
+
 
 ### Database:
 <p align="left">
