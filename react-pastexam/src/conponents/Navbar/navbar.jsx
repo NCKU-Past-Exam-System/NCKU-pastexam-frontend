@@ -1,15 +1,47 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import AdbIcon from '@mui/icons-material/Adb';
+import { useState } from 'react';
+import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { clientId } from "../../credential";
 import { useGoogleLogin , googleLogout,GoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { useCookies } from 'react-cookie';
 export const Navbar = () => {
   const navigation = useNavigate();
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const pages = ['課程查詢', '上傳考古題', '我的考古題'];
+  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+
+
   const googleOathLogin = GoogleLogin({
     theme :'filled_black',
     clientId: clientId,
@@ -30,15 +62,121 @@ export const Navbar = () => {
     window.location.reload();
   }
   return (
-    <AppBar position="fixed" color='default' sx={{  margin: 0,borderRadius:'2px', backgroundColor: '#526D82', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} >
-          <Button onClick={() => { navigation(`/`) }} sx={{ color: '#DDE6ED', margin: '10px', fontSize: '25px' }}>成大資工考古題系統</Button>
-        </Typography>
-        <Button onClick={() => { navigation(`/upload`) }} sx={{ color: '#DDE6ED', margin: '10px' }}>Upload</Button>
-        {sessionStorage.getItem('token')!=undefined && <Typography color={"#DDE6ED"} paddingRight={"10px"}>Hi, {JSON.parse(sessionStorage.getItem('info'))?.given_name}</Typography>}
-        {sessionStorage.getItem('token')==undefined ? <Button>{googleOathLogin}</Button> : <Button onClick={googleOathLogout}>Logout</Button>}
-      </Toolbar>
-    </AppBar>
+  <AppBar position="fixed" sx={{backgroundColor:'#212121'}}>
+    <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
+      <Typography
+        variant="h6"
+        noWrap
+        component="a"
+        sx={{
+          display: { xs: 'none', md: 'flex' },
+          fontFamily: 'monospace',
+          fontWeight: 700,
+          letterSpacing: '.3rem',
+          color: '#212121',
+          textDecoration: 'none',
+        }}
+      >
+        <Button onClick={() => { navigation(`/`) }} sx={{ color: '#DDE6ED', margin: '10px', fontSize: '30px' }}>成功大學考古題系統</Button>
+      </Typography>
+
+      <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleOpenNavMenu}
+          color="inherit"
+        >
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorElNav}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          open={Boolean(anchorElNav)}
+          onClose={handleCloseNavMenu}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+          }}
+        >
+          {pages.map((page) => (
+            <MenuItem key={page} onClick={handleCloseNavMenu}>
+              <Typography textAlign="center" sx={{fontSize:'20'}} >{page}</Typography>
+            </MenuItem>
+          ))}
+        </Menu>
+      </Box>
+      <Typography
+        variant="h5"
+        noWrap
+        component="a"
+        href="#app-bar-with-responsive-menu"
+        sx={{
+          mr: 2,
+          display: { xs: 'flex', md: 'none' },
+          flexGrow: 1,
+          fontFamily: 'monospace',
+          fontWeight: 700,
+          letterSpacing: '.3rem',
+          color: 'inherit',
+          textDecoration: 'none',
+        }}
+      >
+        LOGO
+      </Typography>
+      <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        {pages.map((page) => (
+          <Button
+            key={page}
+            onClick={handleCloseNavMenu}
+            sx={{ my: 2, color: 'white', display: 'block' ,fontSize: '20px' }}
+          >
+            {page}
+          </Button>
+        ))}
+      </Box>
+
+      <Box sx={{ flexGrow:0.5,display:'flex',justifyContent:'center',marginRight:'auto'}}>
+        <Tooltip title="Open settings" >
+        {sessionStorage.getItem('token')!= undefined &&           
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
+            <Avatar alt={JSON.parse(sessionStorage.getItem('info'))?.given_name} src={JSON.parse(sessionStorage.getItem('info'))?.picture} sx={{ width: 55, height: 55 }}/>
+          </IconButton>}
+        </Tooltip>
+        <Menu
+          sx={{ mt: '45px' }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={handleCloseUserMenu}
+        >
+          {settings.map((setting) => (
+            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              <Typography textAlign="center">{setting}</Typography>
+            </MenuItem>
+          ))}
+        </Menu>
+      </Box>
+    </Toolbar>
+</AppBar>
   );
 }
