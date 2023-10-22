@@ -80,7 +80,7 @@ export const Navbar = () => {
         <Button onClick={() => { navigation(`/`) }} sx={{ color: '#DDE6ED', margin: '10px', fontSize: '30px' }}>成功大學考古題系統</Button>
       </Typography>
 
-      <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+      <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' },justifyContent:'space-between',alignContent:'center'}}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -115,8 +115,7 @@ export const Navbar = () => {
             </MenuItem>
           ))}
         </Menu>
-      </Box>
-      <Typography
+        <Typography
         variant="h5"
         noWrap
         component="a"
@@ -129,11 +128,44 @@ export const Navbar = () => {
           fontWeight: 700,
           letterSpacing: '.3rem',
           color: 'inherit',
+          // paddingTop:'10px',
           textDecoration: 'none',
+          justifyContent: 'left',
+          alignItems: 'center',
         }}
       >
-        LOGO
+        成功大學考古題系統
       </Typography>
+      <Tooltip title="Open settings" >
+        {sessionStorage.getItem('token')!= undefined &&           
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Avatar alt={JSON.parse(sessionStorage.getItem('info'))?.given_name} src={JSON.parse(sessionStorage.getItem('info'))?.picture} sx={{ width: 55, height: 55 }}/>
+          </IconButton>}
+        </Tooltip>
+        <Menu
+          sx={{ mt: '45px' }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={handleCloseUserMenu}
+        >
+          {settings.map((setting) => (
+            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              <Typography textAlign="center">{setting}</Typography>
+            </MenuItem>
+          ))}
+        </Menu>
+      </Box>
+
       <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
         {pages.map((page) => (
           <Button
@@ -146,10 +178,10 @@ export const Navbar = () => {
         ))}
       </Box>
 
-      <Box sx={{ flexGrow:0.5,display:'flex',justifyContent:'center',marginRight:'auto'}}>
+      <Box sx={{ flexGrow:0.5,display:{xs:'none',md:'flex'},justifyContent:'center',marginRight:'auto'}}>
         <Tooltip title="Open settings" >
         {sessionStorage.getItem('token')!= undefined &&           
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt={JSON.parse(sessionStorage.getItem('info'))?.given_name} src={JSON.parse(sessionStorage.getItem('info'))?.picture} sx={{ width: 55, height: 55 }}/>
           </IconButton>}
         </Tooltip>
