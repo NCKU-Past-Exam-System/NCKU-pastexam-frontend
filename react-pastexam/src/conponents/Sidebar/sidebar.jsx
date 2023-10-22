@@ -13,7 +13,7 @@ import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 const closedMixin = ()=>({
     width: 240,
-    backgroundColor:'#040D12',
+    backgroundColor:'#080808',
   });
 const Drawer = styled(MuiDrawer)(
     ({ 
@@ -60,7 +60,7 @@ export const Sidebar = (props) => {
         ...theme.mixins.toolbar,
       }));
     const myDrawer = (
-            <List sx={{backgroundColor:'#040D12'}}>
+            <List sx={{backgroundColor:'#080808'}}>
                 {COURSE_TYPES.map((group, index) => (
                     <div>
                         <ListItemButton onClick={() => handleClicked(index)} on>
@@ -82,7 +82,7 @@ export const Sidebar = (props) => {
     );
 
     return (
-        <Drawer variant="permanent" sx={{backgroundColor:'#040D12' ,BorderRight:3}} open={open}>
+        <Drawer variant="permanent" sx={{backgroundColor:'#080808' ,BorderRight:3}} open={open}>
         <DrawerHeader/>
         {myDrawer}
       </Drawer>

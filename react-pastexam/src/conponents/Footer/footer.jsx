@@ -13,7 +13,7 @@ export const Footer = () => {
         py: 3,
         px: 2,
         mt: 'auto',
-        backgroundColor:'#040D12',
+        backgroundColor:'#080808',
       }}
     >
       <Container maxWidth="sm">
