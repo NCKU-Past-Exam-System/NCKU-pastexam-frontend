@@ -4,16 +4,20 @@ import { Navbar } from "../../conponents/Navbar/navbar";
 import { Box } from "@mui/system";
 import {Footer} from "../../conponents/Footer/footer";
 import { Typography } from "@mui/material";
-export const NoPage = () => {
+export const Maintainance = () => {
     return (
       <Box sx={{minHeight: '100vh', display: 'flex', flexDirection: 'column' ,backgroundColor:'#080808'}}>
-      <Box sx={{ display: 'flex' ,backgroundColor:'#080808'}} >
+      <Box sx={{ display: 'flex' ,justifyContent: 'center',width:'100%',backgroundColor:'#080808'}} >
           <Navbar />
-          <Typography variant="h1" component="div" color={"white"} sx={{ flexGrow: 1 ,paddingTop:'75px'}}>
-            Oops! Page not found.
-          </Typography>
+          <Box
+                        component="img"
+                        sx={{display: 'block',
+                            paddingTop:'75px',
+                            margin: 'auto'}}
+                        src="https://i.imgur.com/1aAEnnj.jpg"/>
       </Box>
       <Footer />
   </Box>
     )
+    
   };

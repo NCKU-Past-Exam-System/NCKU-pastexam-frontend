@@ -1,6 +1,6 @@
 import React from "react";
 import { Sidebar } from "../../conponents/Sidebar/sidebar";
-import { Table } from "../Table/table";
+import { Table } from "../../conponents/Table/table";
 import { Navbar } from "../../conponents/Navbar/navbar";
 import { Box } from "@mui/system";
 import {Footer} from "../../conponents/Footer/footer";

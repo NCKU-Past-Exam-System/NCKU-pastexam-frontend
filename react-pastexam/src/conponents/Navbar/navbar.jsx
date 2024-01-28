@@ -22,7 +22,6 @@ import Divider from '@mui/material/Divider';
 import { useGoogleLogin, googleLogout, GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { useCookies } from 'react-cookie';
 import { ConnectedTvOutlined } from '@mui/icons-material';
 export const Navbar = () => {
   const navigation = useNavigate();

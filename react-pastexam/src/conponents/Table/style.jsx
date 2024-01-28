@@ -1,4 +1,4 @@
-import { ReactComponent as LoadingComponent } from '../Svg/loading.svg';
+import { ReactComponent as LoadingComponent } from '../../conponents/Svg/loading.svg';
 import { styled } from 'styled-components';
 export const Loading = styled(LoadingComponent)`
   display: block;

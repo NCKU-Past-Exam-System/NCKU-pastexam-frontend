@@ -132,3 +132,8 @@ dist
 ```
 react-pastexam/src/credential.jsx
 pushtoserver.sh
+/html
+*.py
+*.csv
+.DS_Store
+```

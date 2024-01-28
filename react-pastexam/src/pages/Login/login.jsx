@@ -1,22 +1,26 @@
 import React from "react";
 import { useState } from "react";
 
+import { clientId } from "../../credential";
+import { GoogleLogin,GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode';
+import { Button } from "@mui/material";
+
 export const Login = () =>{
-    const [email, setEmail] = useState("");
-    const [passwd, setPasswd] = useState("");
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-        setEmail(document.getElementById("email").value);
-        setPasswd(document.getElementById("password").value);
-        console.log(email, passwd);
-    }
+    const googleOath= useGoogleLogin({
+        clientId: clientId,
+        onSuccess: (credentialResponse) => {
+            console.log(credentialResponse);
+            console.log(credentialResponse.credential);
+            const responsePayload = jwtDecode(credentialResponse.credential);
+            console.log(responsePayload);
+        }
+    })
     return (
-        <form>
-            <label htmlFor="email">email</label>
-            <input type="email" placeholder="請輸入Email" id="email"></input><br/>
-            <label htmlFor="password">密碼</label>
-            <input type="password" placeholder="請輸入密碼" id="password"></input><br/>
-            <button type="submit" onClick={handleSubmit}>Log In</button>
-        </form>
+        <GoogleOAuthProvider clientId={clientId} >
+        <Button onClick={googleOath}>
+            LOgin
+        </Button>
+        </GoogleOAuthProvider>
     )
 }
