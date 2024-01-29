@@ -70,8 +70,8 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
                 <Typography variant="h3" color={"white"} fontWeight={'bold'} marginLeft={'0.5%'}>
                     課程查詢
                 </Typography>
-                <Box sx={{ display: { md: 'flex', xs: 'none' }, width: "70%", my: 2 }}>
-                    <FormControl sx={{ width: "25%", flexDirection: 'row' }}>
+                <Box sx={{ display:"flex", width: "70%",justifyContent:"space-between", my: 2 }}>
+                    <FormControl sx={{ width: "25%",mr:1}}>
                         <TextField id="course" label="課程名稱" variant="outlined"
                             InputLabelProps={{
                                 style: { color: "lightgray", fontSize: '1.3rem' }
@@ -85,7 +85,7 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
                                 ...TextFieldStyle
                             }} />
                     </FormControl>
-                    <FormControl sx={{ width: "25%", flexDirection: 'row' }}>
+                    <FormControl sx={{ width: "25%",mr:1}}>
                         <TextField id="professor" label="教授" variant="outlined"
                             onChange={(event) => setInstructor(event.target.value)}
                             value={instructor}
@@ -101,7 +101,7 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
 
                         />
                     </FormControl>
-                    <FormControl sx={{ width: "30%", flexDirection: 'row' }}>
+                    <FormControl sx={{ width: "30%", mr:1}}>
                         <InputLabel disableAnimation={true} shrink={false} sx={{ color: "lightgray", fontSize: '1.3rem', mx: '2%', backgroundColor: "#080808" }}>{dept.b}</InputLabel>
                         <Select
                             labelId="type-label"

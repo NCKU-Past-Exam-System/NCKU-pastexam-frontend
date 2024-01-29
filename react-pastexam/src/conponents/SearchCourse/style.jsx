@@ -18,7 +18,7 @@ export const TextFieldStyle = {
 export const ButtonStyle = {
     color: 'lightgray',
     fontSize: '1.3rem',
-    width: '5%',
+    width: '10%',
     // margin: '0.5%',
     borderColor: 'rgba(228, 219, 233, 0.5)',
     borderWidth: '3px',
