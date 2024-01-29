@@ -27,8 +27,8 @@ export const Navbar = () => {
   const navigation = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const pages = ['課程查詢', '上傳考古題', '我的考古題'];
-  const pagelinks = ['search', 'upload', 'mine'];
+  const pages = ['課程查詢', '我的考古題'];
+  const pagelinks = ['search', 'mine'];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   const settinglinks = ['tmp', 'tmp', 'tmp', 'tmp'];
   const handleOpenNavMenu = (event) => {
