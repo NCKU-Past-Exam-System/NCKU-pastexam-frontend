@@ -14,11 +14,13 @@ import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import {FileUploadDialog} from "../../conponents/FileUploadDialog/fileUploadDialog";
+import {Loading} from "../../conponents/Loading/loading";
 export const Files = () => {
     const location = useLocation();
     const courseUid = location.pathname.split('/')[2];
     const [courseInfo, setCourseInfo] = React.useState({});
     const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     useEffect(() => {
         fetchCourseInfo();
         console.log(courseUid);
@@ -46,7 +48,8 @@ export const Files = () => {
                             <Button variant="outlined" sx={{...ButtonStyle }} onClick={handleDialogOpen}>上傳考古題</Button>
                             {dialogOpen && <FileUploadDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />}
                         </Box>
-                        <FileTable uid={courseUid} />
+                            {loading?<Loading/>:null}
+                        <FileTable uid={courseUid} setLoading={setLoading}/>
                     </Box>
                 </Box>
                 <Footer />

@@ -4,13 +4,15 @@ import { Box } from '@mui/system';
 import { TableCellStyle } from './style';
 import { useEffect } from 'react';
 import { api } from '../../credential';
-export const FileTable = ({ uid }) => {
+import axios from 'axios';
+export const FileTable = ({ uid ,setLoading}) => {
     const [fileData, setFileData] = React.useState([]);
     const handleFetchFileList = async () => {
-        const res = await fetch(`${api}/main/${uid}`);
-        const data = await res.json();
-        setFileData(data);
-        console.log(data);
+        setLoading(true);
+        axios.get(`${api}/main/${uid}`).then((res)=>{
+            setFileData(res.data);
+            setLoading(false);  
+        })
     }
     useEffect(() => {
         handleFetchFileList();
@@ -34,7 +36,7 @@ export const FileTable = ({ uid }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {fileData.map((file) => (
+                        {fileData.length && fileData.map((file) => (
                         <TableRow
                             key={file.id}// Assuming 'id' is unique
                             sx={{
