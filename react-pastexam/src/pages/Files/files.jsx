@@ -46,10 +46,10 @@ export const Files = () => {
                         <Box sx={{width:"80%",display: "flex", flexDirection: "row",paddingBottom:"20px"}}>
                             <Typography variant="h3" sx={{width:"80%"}}>{courseInfo.dept}-{courseInfo.id} {courseInfo.name} {courseInfo.teacher}</Typography>
                             <Button variant="outlined" sx={{...ButtonStyle }} onClick={handleDialogOpen}>上傳考古題</Button>
-                            {dialogOpen && <FileUploadDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />}
+                            {dialogOpen && <FileUploadDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} uid={courseUid}/>}
                         </Box>
                             {loading?<Loading/>:null}
-                        <FileTable uid={courseUid} setLoading={setLoading}/>
+                        <FileTable uid={courseUid} setLoading={setLoading} />
                     </Box>
                 </Box>
                 <Footer />
