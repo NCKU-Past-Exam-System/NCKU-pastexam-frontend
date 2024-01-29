@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { CourseTable } from "../../conponents/CourseTable/courseTable";
 import { ThemeProvider ,createTheme} from '@mui/material/styles';
 import { Navbar } from "../../conponents/Navbar/navbar";
+import {Loading} from "../../conponents/Loading/loading";
 const darkTheme = createTheme({
     palette: {
       mode: 'dark', // Switches the theme to dark mode
@@ -16,6 +17,7 @@ export const Search = () => {
     const [instructor, setInstructor] = React.useState("");
     const [dept, setDept] = React.useState("");
     const [courseData, setCourseData] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
     return (
         <ThemeProvider theme={darkTheme}>
         <Box>
@@ -25,10 +27,12 @@ export const Search = () => {
                 instructor={instructor} setInstructor={setInstructor}
                 dept={dept} setDept={setDept}
                 courseData={courseData} setCourseData={setCourseData}
+                setLoading={setLoading}
             />
             <Typography>
                 {courseName}
             </Typography>
+            {loading?<Loading/>:null}
             <CourseTable courseData={courseData}/>
         </Box>
         </ThemeProvider>

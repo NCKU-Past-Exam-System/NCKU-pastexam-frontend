@@ -12,7 +12,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import alldept from "../../data/dept.json";
 
-export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseName, dept, setDept, courseData, setCourseData }) => {
+export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseName, dept, setDept, courseData, setCourseData, setLoading }) => {
     const [deptOpen, setDeptOpen] = useState(false);
     const [groupOpen, setGroupOpen] = useState(Array(14).fill(false));
     const defaultDept = { a: "", b: "系所" };
@@ -36,17 +36,18 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
     const searchCourse = (course_name, instructor, dept) => {
         setCourseData([]);
         console.log("dept: " + dept);
+        setLoading(true);
         axios.get(api + "/search", {
             params: {
                 ...(course_name && { course_name }),
                 ...(instructor && { instructor }),
                 ...(dept && { dept }),
             },
+        }).then((res) => {
+            setCourseData(res.data);
+            console.log(courseData);
+            setLoading(false);
         })
-            .then((res) => {
-                setCourseData(res.data);
-                console.log(courseData);
-            });
     };
     const handleSearchClicked = (coursename, ins, out_dept) => {
         if (coursename == '' && ins == '' && out_dept == '') {
@@ -70,7 +71,7 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
                     課程查詢
                 </Typography>
                 <Box sx={{ display: { md: 'flex', xs: 'none' }, width: "70%", my: 2 }}>
-                    <FormControl sx={{width:"25%", flexDirection: 'row' }}>
+                    <FormControl sx={{ width: "25%", flexDirection: 'row' }}>
                         <TextField id="course" label="課程名稱" variant="outlined"
                             InputLabelProps={{
                                 style: { color: "lightgray", fontSize: '1.3rem' }
@@ -84,7 +85,7 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
                                 ...TextFieldStyle
                             }} />
                     </FormControl>
-                    <FormControl sx={{width:"25%", flexDirection: 'row' }}>
+                    <FormControl sx={{ width: "25%", flexDirection: 'row' }}>
                         <TextField id="professor" label="教授" variant="outlined"
                             onChange={(event) => setInstructor(event.target.value)}
                             value={instructor}
@@ -100,7 +101,7 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
 
                         />
                     </FormControl>
-                    <FormControl sx={{width:"30%", flexDirection: 'row'}}>
+                    <FormControl sx={{ width: "30%", flexDirection: 'row' }}>
                         <InputLabel disableAnimation={true} shrink={false} sx={{ color: "lightgray", fontSize: '1.3rem', mx: '2%', backgroundColor: "#080808" }}>{dept.b}</InputLabel>
                         <Select
                             labelId="type-label"
