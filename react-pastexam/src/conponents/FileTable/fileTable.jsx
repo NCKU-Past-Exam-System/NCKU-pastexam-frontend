@@ -17,7 +17,7 @@ export const FileTable = ({ uid, setLoading }) => {
   const [fileData, setFileData] = React.useState([]);
   const handleFetchFileList = async () => {
     setLoading(true);
-    axios.get(`${api}/main/${uid}`).then((res) => {
+    axios.get(`${api}/filelist/${uid}`).then((res) => {
       setFileData(res.data);
       console.log(res.data);
       setLoading(false);
@@ -26,6 +26,40 @@ export const FileTable = ({ uid, setLoading }) => {
         setFileData([]);
     });
   };
+  const handleDownload = (hash,filename) => {
+    axios.get(`${api}/file/?hash=${hash}`, {
+        responseType: 'blob',
+        withCredentials: true,
+        headers: {
+            'token': sessionStorage.getItem('token'),
+        }}
+    ).then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+    }).catch(error => {
+        console.log(error);
+        if(error.message == 'Network Error'){
+            alert('server error');
+            return;
+        }
+        const reader = new FileReader();
+        reader.readAsText(error?.response?.data,'utf-8');
+        reader.onload = ()  => {
+            alert(JSON.parse(reader.result).message);
+            if(JSON.parse(reader.result).message=='Token Expired! Please Relogin!'||JSON.parse(reader.result).message=='Unvalid Login! Please Relogin!'){
+                // googleLogout();
+                sessionStorage.removeItem('token');
+                sessionStorage.removeItem('info');
+                window.location.reload();
+            } 
+        }
+          
+      });
+}
   useEffect(() => {
     handleFetchFileList();
   }, []);
@@ -64,7 +98,12 @@ export const FileTable = ({ uid, setLoading }) => {
                       key={file.id} // Assuming 'id' is unique
                       sx={{
                         ...TableRowStyle,
-                      }}>
+                      }}
+                      onClick={() => {
+                        console.log(file.hash);
+                        handleDownload(file.hash,file.name);
+                      }}
+                      >
                       <TableCell sx={{ ...TableCellStyle }} align="center" component="th" scope="row">
                         {file.year}
                       </TableCell>
