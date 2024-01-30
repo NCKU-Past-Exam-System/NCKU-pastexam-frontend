@@ -26,10 +26,16 @@ export const Files = () => {
         console.log(courseUid);
     }, [])
     const fetchCourseInfo = async () => {
-        const res = await axios.get(`${api}/search/?uid=${courseUid}`);
-        setCourseInfo(res.data[0]);
-        console.log(res.data[0]);
-    }
+      const res = await axios
+        .get(`${api}/search/?uid=${courseUid}`)
+        .then((res) => {
+          setCourseInfo(res.data.data[0]);
+        })
+        .catch((error) => {
+          console.log(error);
+          setCourseInfo({'name':'Not Found'});
+        });
+    };
     const handleDialogOpen = () => {
         setDialogOpen(true);
         console.log(dialogOpen);
@@ -42,15 +48,21 @@ export const Files = () => {
             <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#080808' }}>
                 <Navbar />
                 <Box sx={{ paddingTop: "100px", display: "flex", flexDirection: "column", alignItems: 'center' }}>
-                    <Box sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: 'center' }}>
+                    {(courseInfo.hasOwnProperty('name') && courseInfo.name!="Not Found") &&  <Box sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: 'center' }}>
                         <Box sx={{width:"80%",display: "flex", flexDirection: "row",paddingBottom:"20px"}}>
                             <Typography variant="h3" sx={{width:"80%"}}>{courseInfo.dept}-{courseInfo.id} {courseInfo.name} {courseInfo.teacher}</Typography>
                             <Button variant="outlined" sx={{...ButtonStyle }} onClick={handleDialogOpen}>上傳考古題</Button>
                             {dialogOpen && <FileUploadDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} uid={courseUid}/>}
                         </Box>
                             {loading?<Loading/>:null}
+                            
                         <FileTable uid={courseUid} setLoading={setLoading} />
-                    </Box>
+                    </Box>}
+                    {(courseInfo.hasOwnProperty('name') && courseInfo.name=="Not Found") &&  <Box sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: 'center' }}>
+                        <Box sx={{width:"80%",display: "flex", flexDirection: "row",paddingBottom:"20px"}}>
+                            <Typography variant="h3" align="center" sx={{width:"100%"}} >課程不存在</Typography>
+                        </Box>
+                    </Box>}
                 </Box>
                 <Footer />
             </Box>

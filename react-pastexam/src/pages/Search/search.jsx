@@ -29,9 +29,7 @@ export const Search = () => {
                 courseData={courseData} setCourseData={setCourseData}
                 setLoading={setLoading}
             />
-            <Typography>
-                {courseName}
-            </Typography>
+
             {loading?<Loading/>:null}
             <CourseTable courseData={courseData}/>
         </Box>

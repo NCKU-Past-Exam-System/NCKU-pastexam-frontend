@@ -1,27 +1,24 @@
 import React from "react";
-import { Navbar } from "../Navbar/navbar";
 import { Box, Button, FormControl, Select, Typography, InputLabel, MenuItem, MenuList, List, Collapse, ListItem, ListItemText, ListItemIcon, ListItemButton } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import { TextField } from "@mui/material";
 import axios from "axios";
 import { api } from "../../credential";
 import { useEffect, useState } from "react";
-import { Course_table } from "../CourseTable/courseTable";
 import { TextFieldStyle, ButtonStyle } from "./style";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import alldept from "../../data/dept.json";
 
-export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseName, dept, setDept, courseData, setCourseData, setLoading }) => {
+export const SearchCourse = ({ instructor, setInstructor, courseName, setCourseName, dept, setDept, courseData, setCourseData, setLoading }) => {
     const [deptOpen, setDeptOpen] = useState(false);
     const [groupOpen, setGroupOpen] = useState(Array(14).fill(false));
     const defaultDept = { a: "", b: "系所" };
     useEffect(() => {
         setDept(defaultDept);
     }, []);
-    const handleClickGroup = ({ index: index, event }) => {
+    const handleClickGroup = ({ index, event }) => {
         event.stopPropagation();
-        console.log(index);
         setGroupOpen((prevGroupOpen) => {
             const updatedGroupOpen = [...prevGroupOpen];
             updatedGroupOpen[index] = !updatedGroupOpen[index];
@@ -31,11 +28,9 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
     const handleDeptClick = (event, dept) => {
         setDeptOpen(false);
         setDept(dept);
-        console.log(dept);
     };
     const searchCourse = (course_name, instructor, dept) => {
-        setCourseData([]);
-        console.log("dept: " + dept);
+        setCourseData({});
         setLoading(true);
         axios.get(api + "/search", {
             params: {
@@ -44,20 +39,24 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
                 ...(dept && { dept }),
             },
         }).then((res) => {
+            if (res.data.status == "error") {
+                alert(res.data.message);
+                setLoading(false);
+                return;
+            }
             setCourseData(res.data);
-            console.log(courseData);
             setLoading(false);
         })
     };
-    const handleSearchClicked = (coursename, ins, out_dept) => {
-        if (coursename == '' && ins == '' && out_dept == '') {
+    const handleSearchClicked = () => {
+        if (courseName == "" && instructor == "" && dept.a == "") {
             alert("請輸入搜尋條件");
             return;
         }
-        searchCourse(coursename, ins, out_dept);
-        setDept(defaultDept);
-        setCourseName("");
+        searchCourse(courseName, instructor, dept.a);
+        setDept(defaultDept);;
         setInstructor("");
+        setCourseName("");
     };
     return (
         <Box sx={{
@@ -76,8 +75,8 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
                             InputLabelProps={{
                                 style: { color: "lightgray", fontSize: '1.3rem' }
                             }}
-                            value={CourseName}
                             onChange={(event) => setCourseName(event.target.value)}
+                            value={courseName}
                             sx={{
                                 mx: '2%',
                                 width: '100%',
@@ -150,7 +149,7 @@ export const SearchCourse = ({ instructor, setInstructor, CourseName, setCourseN
                     <Button variant="outlined" sx={{
                         ...ButtonStyle
                     }}
-                        onClick={() => handleSearchClicked(CourseName, instructor, dept.a)}
+                        onClick={() => handleSearchClicked()}
                     >
                         搜尋
                     </Button>
