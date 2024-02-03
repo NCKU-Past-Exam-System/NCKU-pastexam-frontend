@@ -16,8 +16,9 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
-import { googleOathLogin,googleOathLogout ,getCookie,googleOathLoginMobile} from '../LoginCookie/loginCookie';
-export const Navbar = () => {
+import { googleOathLogin, googleOathLogout, getCookie } from '../LoginCookie/loginCookie';
+
+export function Navbar() {
   const navigation = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -33,7 +34,6 @@ export const Navbar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -44,7 +44,7 @@ export const Navbar = () => {
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#212121' }}>
       <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-        {/*for desktop*/}
+        {/* for desktop */}
         <Typography
           variant="h6"
           noWrap
@@ -59,28 +59,34 @@ export const Navbar = () => {
           }}
         >
 
-          <Button onClick={() => { navigation(`/`) }} sx={{ color: '#DDE6ED', margin: '10px', fontSize: '30px' }}>成功大學考古題系統</Button>
+          <Button onClick={() => { navigation('/'); }} sx={{ color: '#DDE6ED', margin: '10px', fontSize: '30px' }}>成功大學考古題系統</Button>
         </Typography>
         <Box sx={{ flexGrow: 3, display: { xs: 'none', md: 'flex' } }}>
           {pages.map((page, index) => (
             <Button
               key={page}
               onClick={() => { navigation(`/${pagelinks[index]}`); }}
-              sx={{ my: 2, color: 'white', display: 'block', fontSize: '20px' }}
+              sx={{
+                my: 2, color: 'white', display: 'block', fontSize: '20px',
+              }}
             >
               {page}
             </Button>
           ))}
         </Box>
         <Tooltip sx={{ pl: 2, display: { xs: 'none', md: 'flex' } }}>
-        {getCookie('info')!=null > 0 ?
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
+          {getCookie('info') != null > 0
+            ? (
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt={JSON.parse(getCookie('info'))?.given_name} src={JSON.parse(getCookie('info'))?.picture} sx={{ width: 45, height: 45 }} />
               </IconButton>
-            : <Button>{googleOathLogin}</Button>
-          }
+            )
+            : <Button>{googleOathLogin}</Button>}
         </Tooltip>
-        <Box sx={{ flexGrow: 0.5, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', marginRight: 'auto' }}>
+        <Box sx={{
+          flexGrow: 0.5, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', marginRight: 'auto',
+        }}
+        >
 
           <Menu
             anchorEl={anchorElUser}
@@ -117,10 +123,14 @@ export const Navbar = () => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
             <MenuItem onClick={() => { handleCloseNavMenu(); navigation('/tmp'); }}>
-              <Avatar /> Profile
+              <Avatar />
+              {' '}
+              Profile
             </MenuItem>
             <MenuItem onClick={() => { handleCloseNavMenu(); navigation('/tmp'); }}>
-              <Avatar /> My account
+              <Avatar />
+              {' '}
+              My account
             </MenuItem>
             <Divider />
             <MenuItem onClick={() => { handleCloseNavMenu(); navigation('/tmp'); }}>
@@ -138,8 +148,11 @@ export const Navbar = () => {
           </Menu>
 
         </Box>
-        {/*for mobile*/}
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'space-between', alignContent: 'center' }}>
+        {/* for mobile */}
+        <Box sx={{
+          flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'space-between', alignContent: 'center',
+        }}
+        >
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -170,8 +183,8 @@ export const Navbar = () => {
             }}
           >
             {pages.map((page) => (
-              <MenuItem key={page} >
-                <Typography textAlign="center" sx={{ fontSize: '20' }} >{page}</Typography>
+              <MenuItem key={page}>
+                <Typography textAlign="center" sx={{ fontSize: '20' }}>{page}</Typography>
               </MenuItem>
             ))}
           </Menu>

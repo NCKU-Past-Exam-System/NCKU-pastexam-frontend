@@ -1,16 +1,17 @@
-import React from "react";
-import { Sidebar } from "../../conponents/Sidebar/sidebar";
-import { Table } from "../../conponents/Table/table";
-import { Navbar } from "../../conponents/Navbar/navbar";
-import { Box } from "@mui/system";
-import {Footer} from "../../conponents/Footer/footer";
-export const Main = () => {
-    return (
-        <Box sx={{minHeight: '100vh', display: 'flex', flexDirection: 'column' ,backgroundColor:'#080808'}}>
-            <Box sx={{ display: 'flex' ,backgroundColor:'#080808'}} >
-                <Navbar />
-            </Box>
-            <Footer />
-        </Box>
-    )
+import React from 'react';
+import { Box } from '@mui/system';
+import { Navbar } from '../../conponents/Navbar/navbar';
+import { Footer } from '../../conponents/Footer/footer';
+
+export function Main() {
+  return (
+    <Box sx={{
+      minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#080808',
+    }}
+    >
+      <Navbar />
+      <Box sx={{ display: 'flex', backgroundColor: '#080808' }} />
+      <Footer />
+    </Box>
+  );
 }
