@@ -12,23 +12,17 @@ import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-import { clientId } from "../../credential";
-import { Link } from 'react-router-dom';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
-import { useGoogleLogin, googleLogout, GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-import { ConnectedTvOutlined } from '@mui/icons-material';
+import { googleOathLogin,googleOathLogout ,getCookie,googleOathLoginMobile} from '../LoginCookie/loginCookie';
 export const Navbar = () => {
   const navigation = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const pages = ['課程查詢', '我的考古題'];
-  const pagelinks = ['search', 'mine'];
+  const pagelinks = ['search', 'myfiles'];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   const settinglinks = ['tmp', 'tmp', 'tmp', 'tmp'];
   const handleOpenNavMenu = (event) => {
@@ -39,51 +33,14 @@ export const Navbar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
   const handleCloseNavMenu = (index) => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = (index) => {
-    navigation(`/${settinglinks[index]}`);
-    setAnchorElUser(null);
-  };
-
-  const googleOathLogin = <GoogleLogin
-    theme="filled_black"
-    clientId={clientId}
-    onSuccess={async (tokenResponse) => {
-      sessionStorage.setItem('token', tokenResponse.credential);
-      sessionStorage.setItem('info', JSON.stringify(jwtDecode(tokenResponse.credential)));
-      window.location.reload();
-    }}
-    onError={(error) => {
-      alert('Login failed');
-      console.log(error);
-    }}
-  />
-
-  const googleOathLoginMobile = <GoogleLogin
-    type='icon'
-    logo_alignment='center'
-    clientId={clientId}
-    onSuccess={async (tokenResponse) => {
-      sessionStorage.setItem('token', tokenResponse.credential);
-      sessionStorage.setItem('info', JSON.stringify(jwtDecode(tokenResponse.credential)));
-      window.location.reload();
-    }}
-    onError={(error) => {
-      alert('Login failed');
-      console.log(error);
-    }}
-  />
-  
-  const googleOathLogout = () => {
-    googleLogout();
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('info');
-    window.location.reload();
-  }
-  
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#212121' }}>
       <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
@@ -116,10 +73,10 @@ export const Navbar = () => {
           ))}
         </Box>
         <Tooltip sx={{ pl: 2, display: { xs: 'none', md: 'flex' } }}>
-          {sessionStorage.getItem('token') != undefined ?
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, display: { xs: 'none', md: 'flex' } }}>
-              <Avatar alt={JSON.parse(sessionStorage.getItem('info'))?.given_name} src={JSON.parse(sessionStorage.getItem('info'))?.picture} sx={{ width: 55, height: 55 }} />
-            </IconButton>
+        {getCookie('info')!=null > 0 ?
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
+                <Avatar alt={JSON.parse(getCookie('info'))?.given_name} src={JSON.parse(getCookie('info'))?.picture} sx={{ width: 45, height: 45 }} />
+              </IconButton>
             : <Button>{googleOathLogin}</Button>
           }
         </Tooltip>
@@ -238,14 +195,6 @@ export const Navbar = () => {
           >
             成功大學考古題系統
           </Typography>
-          <Tooltip sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
-            {sessionStorage.getItem('token') != undefined ?
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, display: { xs: 'flex', md: 'none' } }}>
-                <Avatar alt={JSON.parse(sessionStorage.getItem('info'))?.given_name} src={JSON.parse(sessionStorage.getItem('info'))?.picture} sx={{ width: 35, height: 35 }} />
-              </IconButton>
-              : <Button sx={{ pt: 2, display: { xs: 'flex', md: 'none' } }}>{googleOathLoginMobile}</Button>
-            }
-          </Tooltip>
         </Box>
       </Toolbar>
     </AppBar>
