@@ -9,7 +9,6 @@ import {
   Paper,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import axios from 'axios';
 import { TableCellStyle, TableRowStyle } from './style';
 import { FetchFileListByCourse, DownloadFile } from '../../api';
 
@@ -41,7 +40,6 @@ export function FileTable({ uid, setLoading }) {
   };
   useEffect(() => {
     handleFetchFileList();
-    axios.defaults.withCredentials = true;
   }, []);
 
   return (

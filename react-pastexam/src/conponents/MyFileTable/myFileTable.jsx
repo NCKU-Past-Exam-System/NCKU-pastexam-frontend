@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Box } from '@mui/system';
-import axios from 'axios';
 import { TableCellStyle, TableRowStyle } from './style';
 import { googleOathLogout, getCookie } from '../LoginCookie/loginCookie';
 import { DeleteFile, DownloadFile, FetchMyFileList } from '../../api';
@@ -71,7 +70,6 @@ export function MyFileTable({ setLoading }) {
   };
 
   useEffect(() => {
-    axios.defaults.withCredentials = true;
     console.log(getCookie('token'));
     if (getCookie('token') != '') {
       handleFetchMyFileList();
