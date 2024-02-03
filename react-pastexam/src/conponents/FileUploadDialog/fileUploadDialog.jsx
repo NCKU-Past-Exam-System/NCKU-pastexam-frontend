@@ -4,11 +4,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { useState, useCallback } from 'react';
-import { Slide } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
 import {api} from "../../credential";
+import { UploadFile } from '../../api';
 
 export const FileUploadDialog = ({ dialogOpen, setDialogOpen,uid }) => {
     const yearlist = [112, 111, 110, 109, 108, 107, 106, 105, 104, 103, 102, 101];
@@ -29,12 +29,7 @@ export const FileUploadDialog = ({ dialogOpen, setDialogOpen,uid }) => {
         }
         formData.append('file', selectedFile);
         
-        axios.post(`${api}/uploadfile/?course_id=${uid}&year=${selectedYear}&examtype=${selectedType}&teacher=${selectedTeacher}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'token': sessionStorage.getItem('token'),
-          }
-        }).then((res) => {
+        UploadFile(uid,selectedYear,selectedType,selectedTeacher,formData).then((res) => {
           console.log(res);
           if (res.data.status == 'error') {
             alert("上傳失敗 " + res.data.message);
@@ -49,8 +44,6 @@ export const FileUploadDialog = ({ dialogOpen, setDialogOpen,uid }) => {
     
           alert(error.response.data.message);
           if (error.response.data.message == 'Token Expired! Please Relogin!' || error.response.data.message == 'Unvalid Login! Please Relogin!') {
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('info');
             window.location.reload();
           }
     

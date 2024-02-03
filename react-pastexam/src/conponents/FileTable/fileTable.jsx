@@ -12,12 +12,13 @@ import { Box } from '@mui/system';
 import { TableCellStyle, TableRowStyle } from './style';
 import { useEffect } from 'react';
 import { api } from '../../credential';
+import { FetchFileListByCourse, DownloadFile } from '../../api';
 import axios from 'axios';
 export const FileTable = ({ uid, setLoading }) => {
   const [fileData, setFileData] = React.useState([]);
   const handleFetchFileList = async () => {
     setLoading(true);
-    axios.get(`${api}/filelist/${uid}`).then((res) => {
+    FetchFileListByCourse(uid).then((res) => {
       setFileData(res.data);
       console.log(res.data);
       setLoading(false);
@@ -27,13 +28,8 @@ export const FileTable = ({ uid, setLoading }) => {
     });
   };
   const handleDownload = (hash,filename) => {
-    axios.get(`${api}/file/?hash=${hash}`, {
-        responseType: 'blob',
-        withCredentials: true,
-        headers: {
-            'token': sessionStorage.getItem('token'),
-        }}
-    ).then((res) => {
+    DownloadFile(hash).then((res) => {
+      console.log(res);
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
@@ -41,27 +37,12 @@ export const FileTable = ({ uid, setLoading }) => {
         document.body.appendChild(link);
         link.click();
     }).catch(error => {
-        console.log(error);
-        if(error.message == 'Network Error'){
-            alert('server error');
-            return;
-        }
-        const reader = new FileReader();
-        reader.readAsText(error?.response?.data,'utf-8');
-        reader.onload = ()  => {
-            alert(JSON.parse(reader.result).message);
-            if(JSON.parse(reader.result).message=='Token Expired! Please Relogin!'||JSON.parse(reader.result).message=='Unvalid Login! Please Relogin!'){
-                // googleLogout();
-                sessionStorage.removeItem('token');
-                sessionStorage.removeItem('info');
-                window.location.reload();
-            } 
-        }
-          
+        console.log(error.response);
       });
-}
+    }
   useEffect(() => {
     handleFetchFileList();
+    axios.defaults.withCredentials = true;
   }, []);
 
   return (
@@ -87,6 +68,9 @@ export const FileTable = ({ uid, setLoading }) => {
               </TableCell>
               <TableCell sx={{ ...TableCellStyle }} align="center">
                 檔名
+              </TableCell>
+              <TableCell sx={{ ...TableCellStyle }} align="center">
+                上傳者
               </TableCell>
             </TableRow>
           </TableHead>
@@ -115,6 +99,9 @@ export const FileTable = ({ uid, setLoading }) => {
                       </TableCell>
                       <TableCell sx={{ ...TableCellStyle }} align="center">
                         {file.name}
+                      </TableCell>
+                      <TableCell sx={{ ...TableCellStyle }} align="center">
+                        {file.uploader}
                       </TableCell>
                     </TableRow>
                 ))

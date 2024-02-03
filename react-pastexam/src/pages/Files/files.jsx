@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import {FileUploadDialog} from "../../conponents/FileUploadDialog/fileUploadDialog";
 import {Loading} from "../../conponents/Loading/loading";
+import { SearchCourse } from "../../api";
 export const Files = () => {
     const location = useLocation();
     const courseUid = location.pathname.split('/')[2];
@@ -26,8 +27,7 @@ export const Files = () => {
         console.log(courseUid);
     }, [])
     const fetchCourseInfo = async () => {
-      const res = await axios
-        .get(`${api}/search/?uid=${courseUid}`)
+        SearchCourse('', '', '', courseUid)
         .then((res) => {
           setCourseInfo(res.data.data[0]);
         })
@@ -50,7 +50,7 @@ export const Files = () => {
                 <Box sx={{ paddingTop: "100px", display: "flex", flexDirection: "column", alignItems: 'center' }}>
                     {(courseInfo.hasOwnProperty('name') && courseInfo.name!="Not Found") &&  <Box sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: 'center' }}>
                         <Box sx={{width:"80%",display: "flex", flexDirection: "row",paddingBottom:"20px"}}>
-                            <Typography variant="h3" sx={{width:"80%"}}>{courseInfo.dept}-{courseInfo.id} {courseInfo.name} {courseInfo.teacher}</Typography>
+                            <Typography variant="h4" sx={{width:"80%"}}>{courseInfo.dept}-{courseInfo.id} {courseInfo.name} {courseInfo.teacher}</Typography>
                             <Button variant="outlined" sx={{...ButtonStyle }} onClick={handleDialogOpen}>上傳考古題</Button>
                             {dialogOpen && <FileUploadDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} uid={courseUid}/>}
                         </Box>

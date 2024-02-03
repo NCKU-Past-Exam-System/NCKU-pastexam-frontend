@@ -9,8 +9,9 @@ import { TextFieldStyle, ButtonStyle } from "./style";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import alldept from "../../data/dept.json";
+import { SearchCourse } from "../../api";
 
-export const SearchCourse = ({ instructor, setInstructor, courseName, setCourseName, dept, setDept, courseData, setCourseData, setLoading }) => {
+export const Course = ({ instructor, setInstructor, courseName, setCourseName, dept, setDept, courseData, setCourseData, setLoading }) => {
     const [deptOpen, setDeptOpen] = useState(false);
     const [groupOpen, setGroupOpen] = useState(Array(14).fill(false));
     const defaultDept = { a: "", b: "系所" };
@@ -29,16 +30,10 @@ export const SearchCourse = ({ instructor, setInstructor, courseName, setCourseN
         setDeptOpen(false);
         setDept(dept);
     };
-    const searchCourse = (course_name, instructor, dept) => {
+    const handleSearchCourse = (course_name, instructor, dept) => {
         setCourseData({});
         setLoading(true);
-        axios.get(api + "/search", {
-            params: {
-                ...(course_name && { course_name }),
-                ...(instructor && { instructor }),
-                ...(dept && { dept }),
-            },
-        }).then((res) => {
+        SearchCourse(course_name=course_name,instructor=instructor,dept=dept).then((res) => {
             if (res.data.status == "error") {
                 alert(res.data.message);
                 setLoading(false);
@@ -53,7 +48,7 @@ export const SearchCourse = ({ instructor, setInstructor, courseName, setCourseN
             alert("請輸入搜尋條件");
             return;
         }
-        searchCourse(courseName, instructor, dept.a);
+        handleSearchCourse(courseName, instructor, dept.a);
         setDept(defaultDept);;
         setInstructor("");
         setCourseName("");

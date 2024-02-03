@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchCourse } from "../../conponents/SearchCourse/searchCourse";
+import { Course } from "../../conponents/Course/Course";
 import { Box, Typography } from "@mui/material";
 import { CourseTable } from "../../conponents/CourseTable/courseTable";
 import { ThemeProvider ,createTheme} from '@mui/material/styles';
@@ -22,7 +22,7 @@ export const Search = () => {
         <ThemeProvider theme={darkTheme}>
         <Box>
             <Navbar />
-            <SearchCourse
+            <Course
                 courseName={courseName} setCourseName={setCourseName}
                 instructor={instructor} setInstructor={setInstructor}
                 dept={dept} setDept={setDept}

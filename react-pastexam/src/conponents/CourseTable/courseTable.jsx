@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
-import axios from "axios";
 import { api } from "../../credential";
 import { TableCellStyle,TableRowStyle } from "./style";
 import { Button } from "@mui/material";
