@@ -5,6 +5,7 @@ import { Course } from '../../conponents/Course/Course';
 import { CourseTable } from '../../conponents/CourseTable/courseTable';
 import { Navbar } from '../../conponents/Navbar/navbar';
 import { Loading } from '../../conponents/Loading/loading';
+import { Footer } from '../../conponents/Footer/footer';
 
 const darkTheme = createTheme({
   palette: {
@@ -21,7 +22,13 @@ export function Search() {
   const [loading, setLoading] = React.useState(false);
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: '#080808',
+        }}>
         <Navbar />
         <Course
           courseName={courseName}
@@ -37,6 +44,7 @@ export function Search() {
 
         {loading ? <Loading /> : null}
         <CourseTable courseData={courseData} />
+        <Footer />
       </Box>
     </ThemeProvider>
   );
