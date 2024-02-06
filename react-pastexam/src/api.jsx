@@ -9,7 +9,6 @@ const axiosInstance = axios.create({
   },
   withCredentials: true, 
 });
-
 export const DownloadFile = async (hash) => {
   const res = await axiosInstance.get(`/file/?hash=${hash}`, {
     responseType: 'blob',
@@ -36,8 +35,14 @@ export const UploadFile = async (uid, selectedYear, selectedType, selectedTeache
   );
   return res;
 };
+export const EditFile = async (hash, selectedYear, selectedType, selectedTeacher, newFileName) => {
+  
+  const res = await axiosInstance.put(`/file/?hash=${hash}&year=${selectedYear}&examtype=${selectedType}&teacher=${selectedTeacher}&filename=${newFileName}`);
+  console.log(`/file/?hash=${hash}&year=${selectedYear}&examtype=${selectedType}&teacher=${selectedTeacher}&filename=${newFileName}`);
+  return res;
+}
 export const FetchMyFileList = async () => {
-  const res = await axiosInstance.get(`/list-files-by-user`);
+  const res = await axiosInstance.get(`/list-files-by-user/`);
   return res;
 };
 export const FetchFileListByCourse = async (uid) => {
@@ -45,7 +50,7 @@ export const FetchFileListByCourse = async (uid) => {
   return res;
 };
 export const SearchCourse = async (course_name, instructor, dept, uid) => {
-  const res = await axiosInstance.get(`/search`, {
+  const res = await axiosInstance.get(`/search/`, {
     params: {
       ...(course_name && { course_name }),
       ...(instructor && { instructor }),
@@ -53,5 +58,9 @@ export const SearchCourse = async (course_name, instructor, dept, uid) => {
       ...(uid && { uid }),
     },
   });
+  return res;
+};
+export const GetLatestFile = async (quantity) => {
+  const res = await axiosInstance.get(`/latest-file/?quantity=${quantity}`);
   return res;
 };
