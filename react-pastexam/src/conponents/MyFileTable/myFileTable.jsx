@@ -16,11 +16,19 @@ import { Box } from '@mui/system';
 import { TableCellStyle, TableRowStyle } from './style';
 import { googleOathLogout, getCookie } from '../LoginCookie/loginCookie';
 import { DeleteFile, DownloadFile, FetchMyFileList } from '../../api';
-
+import { FileEditDialog } from '../FileEditDialog/fileEditDialog';
 export function MyFileTable({ setLoading }) {
   const [fileData, setFileData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openRowId, setOpenRowId] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editFile, setEditFile] = useState({
+    hash: '',
+    filename: '',
+    year: '',
+    teacher: '',
+    type: ''
+  });
   const handleFetchMyFileList = () => {
     setLoading(true);
     FetchMyFileList().then((res) => {
@@ -58,7 +66,16 @@ export function MyFileTable({ setLoading }) {
     });
     handleClose();
   };
-
+  const handleEditFile = (hash,filename,year,teacher,type) => {
+    setDialogOpen(true);
+    setEditFile({
+      hash: hash,
+      filename: filename,
+      year: year,
+      teacher: teacher,
+      type: type
+    });
+  };
   const handleClick = (event, id) => {
     setAnchorEl(event.currentTarget);
     setOpenRowId(id);
@@ -85,6 +102,7 @@ export function MyFileTable({ setLoading }) {
         width: '100%',
       }}
     >
+      {dialogOpen && <FileEditDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} defaultValue={editFile} /> }
       <TableContainer component={Paper} sx={{ width: '100%' }}>
         <Table aria-label="simple table">
           <TableHead>
@@ -118,7 +136,7 @@ export function MyFileTable({ setLoading }) {
                     }}
                   >
                     <TableCell sx={{ ...TableCellStyle }} align="center" component="th" scope="row">
-                      {file.year}
+                      {file.year}-{file.sem}
                     </TableCell>
                     <TableCell sx={{ ...TableCellStyle }} align="center">
                       {file.type}
@@ -142,9 +160,9 @@ export function MyFileTable({ setLoading }) {
                         open={Boolean(anchorEl) && openRowId === file.hash}
                         onClose={handleClose}
                       >
-                        <MenuItem onClick={() => { handleDownload(file.hash, file.name); }}>下載</MenuItem>
-                        <MenuItem onClick={handleClose}>重新命名</MenuItem>
-                        <MenuItem onClick={() => { console.log(file);handleDelete(file.hash); }}>刪除</MenuItem>
+                        <MenuItem onClick={()=>{handleDownload(file.hash, file.name)}}>下載</MenuItem>
+                        <MenuItem onClick={()=>{handleEditFile(file.hash,file.name,file.year,file.teacher,file.type)}}>重新命名</MenuItem>
+                        <MenuItem onClick={()=>{handleDelete(file.hash)}}>刪除</MenuItem>
                       </Menu>
                     </TableCell>
                   </TableRow>

@@ -8,12 +8,12 @@ import { MyFileTable } from '../../conponents/MyFileTable/myFileTable';
 import { darkTheme } from './style';
 import { Loading } from '../../conponents/Loading/loading';
 
+
 export function MyFiles() {
   const location = useLocation();
   const courseUid = location.pathname.split('/')[2];
-  const [courseInfo, setCourseInfo] = React.useState({});
-  const [dialogOpen, setDialogOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Box
