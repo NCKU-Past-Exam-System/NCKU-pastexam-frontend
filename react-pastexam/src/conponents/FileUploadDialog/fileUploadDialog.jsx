@@ -83,10 +83,10 @@ export function FileUploadDialog({ dialogOpen, setDialogOpen, uid }) {
       >
         <DialogTitle>上傳考古題</DialogTitle>
         <Box sx={{
-          display: 'flex', flexWrap: 'wrap', justifyContent: 'center', mb: 2,
+          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', mb: 2,
         }}
         >
-          <FormControl sx={{ width: '25%', mr: 2 }}>
+          <FormControl sx={{ width: '30%', mr: 2 }}>
             <InputLabel sx={{ color: '#9DB2BF' }}>類型</InputLabel>
             <Select onChange={handleTypeChange}>
               <MenuItem value="miderm">期中考</MenuItem>
@@ -96,7 +96,7 @@ export function FileUploadDialog({ dialogOpen, setDialogOpen, uid }) {
               <MenuItem value="others">其他</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ width: '15%', mr: 2 }}>
+          <FormControl sx={{ width: '30%', mr: 2 }}>
             <InputLabel sx={{ color: '#9DB2BF' }}>學年</InputLabel>
             <Select onChange={handleYearChange}>
               {yearlist.map((year, index) => (
@@ -104,14 +104,7 @@ export function FileUploadDialog({ dialogOpen, setDialogOpen, uid }) {
               ))}
             </Select>
           </FormControl>
-          <FormControl sx={{ width: '15%', mr: 2 }}>
-            <InputLabel sx={{ color: '#9DB2BF' }}>學期</InputLabel>
-            <Select onChange={handleSemesterChange}>
-              <MenuItem value="1">上</MenuItem>
-              <MenuItem value="2">下</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ width: '25%' }}>
+          <FormControl sx={{ width: '30%' }}>
             <TextField placeholder="教授" onChange={handleTeacherChange} />
           </FormControl>
         </Box>
